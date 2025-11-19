@@ -13,7 +13,6 @@ export default function LoginPage() {
   const [message, setMessage] = useState("");
 
   const showData = [
-    ,
     {
       icon: "",
       title: "Campaign Dashboard",
@@ -90,6 +89,7 @@ export default function LoginPage() {
               try {
                 const response = await apiPost("/api/auth/login", values);
                 // Save token
+                console.log(response);
                 localStorage.setItem("token", response.refreshToken);
                 saveEncrypted("user", response.profile);
                 localStorage.setItem("uid", response.uid);
