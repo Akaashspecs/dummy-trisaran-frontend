@@ -1,4 +1,4 @@
-export const BASE_URL = " http://localhost:4000";
+export const BASE_URL = "https://dummy-trisaran-backend-1.onrender.com";
 // or during development
 
 export async function apiPost(endpoint, data) {
