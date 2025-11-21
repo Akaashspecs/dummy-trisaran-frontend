@@ -31,7 +31,7 @@ const Features = () => {
   }, [cards.length]);
 
   return (
-    <div className="px-10 flex flex-col items-center ">
+    <div className=" flex flex-col items-center ">
       <div className=" relative w-full overflow-hidden rounded-2xl shadow-lg h-full ">
         <div
           className="flex transition-transform duration-700 ease-in-out w-full min-h-[250px]  "

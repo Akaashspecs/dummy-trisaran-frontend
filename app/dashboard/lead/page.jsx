@@ -29,10 +29,5 @@ export default function LeadPage() {
 
   console.log(leads);
 
-  return (
-    <div className="bg-white p-6 rounded-2xl shadow-sm h-full overflow-y-scroll">
-      <LeadsTable leads={leads} />
-      {/* <AdminLeadTable /> */}
-    </div>
-  );
+  return <LeadsTable leads={leads} />;
 }

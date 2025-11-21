@@ -4,6 +4,9 @@ import { ErrorMessage, Field, Form, Formik } from "formik";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
+import { BiSupport } from "react-icons/bi";
+import { MdOutlineTrendingUp } from "react-icons/md";
+import { PiBank } from "react-icons/pi";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
 import { apiPost } from "../lib/api";
@@ -14,21 +17,20 @@ export default function SignupPage() {
   const [message, setMessage] = useState("");
 
   const showData = [
-    ,
     {
-      icon: "",
-      title: "Campaign Dashboard",
-      desc: "Accross all your WhatsApp campaigns in one place",
+      icon: <PiBank />,
+      title: "Trusted Banking Partnerships",
+      desc: "Collaborate with leading banks to build credibility",
     },
     {
-      icon: "",
-      title: "Real Time analytics",
-      desc: "Monitor your campaign performance live",
+      icon: <MdOutlineTrendingUp />,
+      title: "High Payouts for Our Partners",
+      desc: "Enjoy higher returns with clear, transparent payout structures",
     },
     {
-      icon: "",
-      title: "Schedules messages",
-      desc: "View mand manage",
+      icon: <BiSupport />,
+      title: "Dedicated Guidance & Support",
+      desc: "We understand your unique goals and guide you toward sustainable success.",
     },
   ];
   // Yup Validation
@@ -66,14 +68,16 @@ export default function SignupPage() {
       {/* Left Section */}
       <div className="w-1/2 flex justify-center items-center ">
         <div>
-          <div className="text-5xl 2xl:text-7xl font-bold">Welcome Back</div>
+          <div className="text-5xl 2xl:text-7xl font-bold">Welcome</div>
           <div className="text-2xl 2xl:text-4xl  text-gray-600">
-            Sign in to manage your marketing campaigns
+            Sign in to becoma a trisaran member
           </div>
           <div className="mt-5 flex flex-col gap-8">
             {showData.map((item, i) => (
               <div className="flex gap-3 items-center" key={i}>
-                <div className="bg-blue-500/30 rounded-sm h-[45px] w-[45px]"></div>
+                <div className="bg-blue-500/30 rounded-sm h-[45px] w-[45px] text-[35px] flex justify-center items-center text-blue-500/90 ">
+                  {item.icon}
+                </div>
                 <div>
                   <div className="font-semibold text-[16px] 2xltext-[20px]">
                     {item.title}

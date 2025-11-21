@@ -2,11 +2,17 @@
 
 import { usePathname } from "next/navigation";
 import { use, useEffect, useState } from "react";
-import { CiCreditCard1 } from "react-icons/ci";
+import { CiCreditCard1, CiShare2 } from "react-icons/ci";
 import { FaAngleDown, FaAngleUp } from "react-icons/fa";
 import { GoFile } from "react-icons/go";
 import { IoMdCheckmarkCircle } from "react-icons/io";
 import { IoShieldCheckmark } from "react-icons/io5";
+import { MdOutlinePictureAsPdf } from "react-icons/md";
+import {
+  breakAfterCommaStable,
+  openPDF,
+  sharePDF,
+} from "../../../../app/utils";
 import BackButton from "../../../components/BackButton";
 import WhatsAppShareButton from "../../../components/ShareButton";
 import { apiGet } from "../../../lib/api";
@@ -162,7 +168,10 @@ export default function ServiceDetail({ params }) {
           singleProductData={singleProductData}
         />
       )}
-      <BackButton url="/dashboard/services" />
+      <div className="absolute top-5 left-5 z-10">
+        <BackButton url="/dashboard/services" />
+      </div>
+
       <h3 className="text-2xl font-bold  capitalize text-center">
         {" "}
         Explore {serviceData}
@@ -185,7 +194,7 @@ export default function ServiceDetail({ params }) {
                         <img
                           src={item.imageUrl}
                           alt="product"
-                          className="object-cover h-full w-full
+                          className="object-contain h-full w-full
                         "
                         />
                       </div>
@@ -205,8 +214,14 @@ export default function ServiceDetail({ params }) {
                           ))}
                         </div>
                       )} */}
-                        <div className="text-gray-600 text-[15px] flex flex-wrap pr-5">
-                          {item.description}
+                        <div className="line-clamp-2 text-gray-600 text-[14px] flex flex-wrap pr-5 flex-col  ">
+                          {breakAfterCommaStable(item.description).map(
+                            (line, i) => (
+                              <div key={i} className="mr-2">
+                                {line}
+                              </div>
+                            )
+                          )}
                         </div>
                       </div>
                     </div>
@@ -214,7 +229,7 @@ export default function ServiceDetail({ params }) {
                       {" "}
                       <div
                         onClick={() => handlForm(item.id)}
-                        className="cursor-pointer h-fit px-10 py-2 text-white rounded-2xl shadow-lg text-2xl bg-linear-to-l from-blue-600 to-sky-500 "
+                        className="cursor-pointer h-fit px-10 py-2 text-white rounded-xl shadow-lg text-xl bg-linear-to-l from-blue-600 to-sky-500 text-center "
                       >
                         Apply Now
                       </div>
@@ -271,49 +286,85 @@ export default function ServiceDetail({ params }) {
                       </span>
                     </div>
                     {openIndex === item.id && (
-                      <div className="mt-4">
-                        {item.features && item.features.length > 0 && (
-                          <div>
-                            <div className="mb-3 text-[20px] font-semibold">
-                              Key Features
-                            </div>
-                            <div className=" transition duration-1000 flex flex-col gap-2 ">
-                              {item.features.map((list, i) => (
-                                <div
-                                  key={i}
-                                  className="transition duration-1000 flex items-center gap-1"
-                                >
-                                  <div className="h-[18px] w-[18px] rounded-full bg-green-300/40 flex justify-center items-center text-green-500/60">
-                                    <IoMdCheckmarkCircle />
+                      <div className="mt-4 flex relative justify-between">
+                        <div>
+                          {item.features && item.features.length > 0 && (
+                            <div>
+                              <div className="mb-3 text-[20px] font-semibold">
+                                Key Features
+                              </div>
+                              <div className=" transition duration-1000 flex flex-col gap-2 ">
+                                {item.features.map((list, i) => (
+                                  <div
+                                    key={i}
+                                    className="transition duration-1000 flex items-center gap-1"
+                                  >
+                                    <div className="h-[18px] w-[18px] rounded-full bg-green-300/40 flex justify-center items-center text-green-500/60">
+                                      <IoMdCheckmarkCircle />
+                                    </div>
+                                    <span className="text-[14px] text-gray-700">
+                                      {list}
+                                    </span>
                                   </div>
-                                  <span className="text-[14px] text-gray-700">
-                                    {list}
-                                  </span>
-                                </div>
-                              ))}
+                                ))}
+                              </div>
                             </div>
-                          </div>
-                        )}
+                          )}
 
-                        {item.eligibility && item.eligibility.length > 0 && (
-                          <div>
-                            <div className="mb-3 mt-7 text-[20px] font-semibold">
-                              Eligibility
-                            </div>
-                            <div className=" transition duration-1000 flex flex-col gap-2 ">
-                              {item.eligibility.map((list, i) => (
-                                <div
-                                  key={i}
-                                  className="transition duration-1000 flex items-center gap-1"
-                                >
-                                  <div className="h-[18px] w-[18px] rounded-full bg-blue-300/40 flex justify-center items-center text-[13px] text-blue-500/60">
-                                    <IoShieldCheckmark />
+                          {item.eligibility && item.eligibility.length > 0 && (
+                            <div>
+                              <div className="mb-3 mt-7 text-[20px] font-semibold">
+                                Eligibility
+                              </div>
+                              <div className=" transition duration-1000 flex flex-col gap-2 ">
+                                {item.eligibility.map((list, i) => (
+                                  <div
+                                    key={i}
+                                    className="transition duration-1000 flex items-center gap-1"
+                                  >
+                                    <div className="h-[18px] w-[18px] rounded-full bg-blue-300/40 flex justify-center items-center text-[13px] text-blue-500/60">
+                                      <IoShieldCheckmark />
+                                    </div>
+                                    <span className="text-[14px] text-gray-700">
+                                      {list}
+                                    </span>
                                   </div>
-                                  <span className="text-[14px] text-gray-700">
-                                    {list}
-                                  </span>
+                                ))}
+                              </div>
+                            </div>
+                          )}
+                        </div>
+                        {item.pdfUrl && (
+                          <div className="absolute right-0 -top-12 flex flex-col gap-2 border h-fit px-3 py-2 border-gray-300 rounded-lg bg-blue-100/30">
+                            <div className="flex gap-2 items-center">
+                              <div className="h-[30px] w-[30px] bg-red-500/30 rounded-sm text-red-500/70 text-[24px] flex justify-center items-center">
+                                {" "}
+                                <MdOutlinePictureAsPdf />
+                              </div>
+
+                              <div>
+                                <div className="text-[14px]">
+                                  Product Broschure
                                 </div>
-                              ))}
+                                <div className="text-[11px]">
+                                  Download PDF to learn more details
+                                </div>
+                              </div>
+                            </div>
+
+                            <div className=" flex gap-2">
+                              <div
+                                onClick={() => openPDF(item.pdfUrl)}
+                                className="bg-red-500/90 grow text-center text-white font-medium px-3 py-2 text-[14px] rounded-lg"
+                              >
+                                Downloan PDF
+                              </div>
+                              <div
+                                onClick={() => sharePDF(item.pdfUrl)}
+                                className="bg-white  border-[1px] border-gray-300 shrink-0 rounded-lg w-[45px] text-[24px] flex justify-center items-center text-gray-600/80 "
+                              >
+                                <CiShare2 />
+                              </div>
                             </div>
                           </div>
                         )}

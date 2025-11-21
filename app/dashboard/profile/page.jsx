@@ -2,16 +2,21 @@
 import { AnimatePresence, motion } from "framer-motion";
 
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaRegIdCard } from "react-icons/fa";
 import { FaRegCircleXmark } from "react-icons/fa6";
 import { GoShieldCheck } from "react-icons/go";
 import {
   IoIosInformationCircleOutline,
   IoMdCheckmarkCircleOutline,
+  IoMdShare,
 } from "react-icons/io";
 import { LuUsers } from "react-icons/lu";
-import { MdHelpOutline, MdOutlinePending } from "react-icons/md";
+import {
+  MdHelpOutline,
+  MdOutlineAccountBalanceWallet,
+  MdOutlinePending,
+} from "react-icons/md";
 import { RiBankLine } from "react-icons/ri";
 import { loadEncrypted } from "../../../app/utils";
 import BankAccount from "./BankAccount";
@@ -26,6 +31,9 @@ export default function ServicePage() {
   const [bankFormOpen, setBankFormOpen] = useState(false);
   const [user, setUser] = useState(null);
   const [ticketTabClosed, setTicketTabClosed] = useState(false);
+  const storedUser = loadEncrypted("user");
+
+  console.log(storedUser);
   const handleTabsFunction = (id) => {
     if (id === "privacy_policy") {
       setPrivacyPageOpen(!privacyPageOpen);
@@ -38,10 +46,6 @@ export default function ServicePage() {
     }
   };
 
-  useEffect(() => {
-    const storedUser = loadEncrypted("user");
-    setUser(storedUser);
-  }, []);
   const tabs = [
     {
       id: "referrals",
@@ -64,7 +68,7 @@ export default function ServicePage() {
     {
       id: "bank_accounts",
       title: "Bank Accounts",
-      desc: "Manage your bank accounts for withdrawals",
+      desc: "Manage your bank accounts ",
       logo: <RiBankLine />,
     },
     // {
@@ -93,6 +97,7 @@ export default function ServicePage() {
       title: "KYC Not Started",
       description: "Verify your identity to unlock all features",
       iconBg: "bg-gray-400/20",
+      darkBgColor: "bg-gray-400",
       icon: <IoIosInformationCircleOutline />,
       color: "text-gray-400",
     },
@@ -101,6 +106,7 @@ export default function ServicePage() {
       title: "KYC Pending",
       description: "Your documents are under review",
       iconBg: "bg-orange-400/20",
+      darkBgColor: "bg-orange-400",
       icon: <MdOutlinePending />,
       color: "text-orange-400",
     },
@@ -109,6 +115,7 @@ export default function ServicePage() {
       title: "KYC Approved",
       description: "Your account is fully verified",
       iconBg: "bg-green-400/20",
+      darkBgColor: "bg-green-400",
       icon: <IoMdCheckmarkCircleOutline />,
       color: "text-green-400",
     },
@@ -117,6 +124,7 @@ export default function ServicePage() {
       title: "KYC Rejected",
       description: "",
       iconBg: "bg-red-400/20",
+      darkBgColor: "bg-red-400",
       icon: <FaRegCircleXmark />,
       color: "text-red-400",
     },
@@ -158,35 +166,58 @@ export default function ServicePage() {
       )}
       <div className="font-semibold text-[20px] pl-6 pt-6 ">Profile</div>
       <div className=" p-6 rounded-2xl flex flex-col gap-24 ">
-        <div className="border border-gray-300 shadow-md rounded-2xl min-h-[300px] flex justify-around items-center ">
-          <div className="flex gap-4  flex-col min-h-[300px] justify-center items-center  px-10">
-            <div className="border rounded-full">
+        <div className="border overflow-hidden border-gray-300 shadow-md rounded-2xl h-[300px] flex justify-around items-center ">
+          <div className=" bg-blue-500/30 h-full flex-1 flex flex-col text-white font-medium   w-full  justify-center items-center  text-center">
+            <div className="flex items-center flex-col bg-blue-500/70 w-[150px] p-2 rounded-t-lg">
+              <MdOutlineAccountBalanceWallet className="text-[24px]" />
+              <div className="text-[20px] font-bold">
+                ₹ {storedUser.totalEarnings}
+              </div>
+              <div className="text-[14px] font-medium">Total Earnings</div>
+            </div>
+
+            {storedUser.kycStatus === "approved" && (
+              <div className="flex items-center flex-col bg-blue-500/70 w-[150px] p-2 rounded-b-lg">
+                <IoMdShare className="text-[24px]" />
+                <div className="text-[20px] font-bold">
+                  {storedUser.agentCode}
+                </div>
+                <div className="text-[14px] font-medium">Agent Code</div>
+              </div>
+            )}
+          </div>
+          <div className="bg-gray-500/30 grow h-full flex-1 flex gap-4  flex-col  justify-center items-center  px-10">
+            <div className=" border border-gray-300 shadow-2xl rounded-full">
               <img
                 className="h-[180px] w-[180px] object-cover rounded-full border-4 border-white"
-                src={`data:image/png;base64,${user?.profileImageBase64}`}
+                src={`data:image/png;base64,${storedUser?.profileImageBase64}`}
               />
             </div>
             <div className="flex justify-center flex-col items-center">
-              <div className="text-2xl font-medium">{user?.name}</div>
+              <div className="text-2xl font-medium">{storedUser?.name}</div>
 
               <div className=" text-gray-500 text-[14px] font-medium">
-                {user?.email}
+                {storedUser?.email}
               </div>
             </div>
           </div>
-          <div className="p-6">
-            {kycStatus.map((item) => {
-              if (user?.kycStatus && item.id === user?.kycStatus) {
-                return (
-                  <div key={item.id}>
+
+          {kycStatus.map((item) => {
+            if (storedUser?.kycStatus && item.id === storedUser?.kycStatus) {
+              return (
+                <div
+                  className={`${item.iconBg} w-full flex-1 h-full`}
+                  key={item.id}
+                >
+                  <div className={`w-full p-3 rounded-lg`}>
                     <div className="flex flex-col gap-3 items-center justify-center">
                       <div
-                        className={`${item.iconBg} ${item.color} text-[130px] flex items-center justify-center rounded-sm h-[150px] w-[150px]`}
+                        className={`${item.color} text-[130px] flex items-center justify-center rounded-sm h-[150px] w-[150px]`}
                       >
                         {item.icon}
                       </div>
                       <div className="flex items-center flex-col ">
-                        <div className={`${item.color} text-2xl font-medium`}>
+                        <div className={`${item.color}  text-2xl font-medium`}>
                           {item.title}
                         </div>
                         <div className="text-[14px] text-gray-600">
@@ -211,27 +242,25 @@ export default function ServicePage() {
                       </div>
                     )}
                   </div>
-                );
-              } else {
-                return null;
-              }
-            })}
-          </div>
+                </div>
+              );
+            } else {
+              return null;
+            }
+          })}
         </div>
-        <div className="flex flex-wrap gap-3 mb-24">
+        <div className="grid grid-cols-3 gap-3 mb-24">
           {tabs.map((item) => (
             <div
               onClick={() => handleTabsFunction(item.id)}
               key={item.title}
-              className="flex border items-center w-fit 2xl:w-[440px] px-2 py-2 rounded-lg gap-2 border-gray-200 shadow-md cursor-pointer hover:bg-gray-50"
+              className="flex border items-center w-full  px-2 py-2 rounded-lg gap-2 border-gray-200 shadow-md cursor-pointer hover:bg-gray-50"
             >
-              <div className=" h-[45px] 2xl:w-[100px] 2xl:h-[100px] w-[45px] bg-blue-500/20 rounded-md text-3xl 2xl:text-[80px] flex justify-center items-center text-blue-600/50">
+              <div className="shrink-0 h-[65px] w-[65px] bg-blue-500/20 rounded-md text-4xl flex justify-center items-center text-blue-600/50">
                 {item.logo}
               </div>
               <div>
-                <div className="text-[15px] 2xl:text-[30px] font-medium">
-                  {item.title}
-                </div>
+                <div className="text-[20px] font-medium">{item.title}</div>
                 <div className="text-[14px] text-gray-500">{item.desc}</div>
               </div>
             </div>

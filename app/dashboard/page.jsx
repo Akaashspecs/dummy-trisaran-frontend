@@ -72,7 +72,7 @@ export default function DashboardPage() {
       <Features />
       <h3 className="text-2xl font-semibold mt-10">Details</h3>
 
-      <div className="flex flex-wrap 2xl:flex-nowrap  gap-5 mt-3">
+      <div className="grid grid-cols-2 gap-5 mt-3">
         {dashboardData &&
           data.map((item) => (
             <div
@@ -80,7 +80,7 @@ export default function DashboardPage() {
               className="border  border-gray-200 rounded-2xl shadow-md p-3 gap-6 flex 2xl:w-full"
             >
               <div
-                className={`h-[120px]   w-[120px] text-7xl   rounded-xl flex justify-center items-center ${item.bg_color} ${item.text_color}`}
+                className={`h-[70px]   w-[70px] text-5xl   rounded-xl flex justify-center items-center ${item.bg_color} ${item.text_color}`}
               >
                 {item.icon}
               </div>

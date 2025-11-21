@@ -4,7 +4,7 @@ import { useState } from "react";
 import { TbXboxX } from "react-icons/tb";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { loadEncrypted } from "../../../app/utils";
+import { loadEncrypted, saveEncrypted } from "../../../app/utils";
 import { apiPost } from "../../lib/api";
 
 // --- Yup Schema ---
@@ -93,6 +93,8 @@ const KycForm = ({ setKycFormOpen }) => {
               try {
                 const response = await apiPost("/api/kyc/create", kycData);
                 toast.success("Form submitted successfully!");
+                console.log("KYC Response:", response.user);
+                saveEncrypted("user", response.user);
                 resetForm();
               } catch (error) {
                 toast.error(error.message);

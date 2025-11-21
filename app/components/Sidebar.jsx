@@ -10,7 +10,7 @@ function Sidebar() {
   const navItems = [
     { href: "/dashboard", label: "Dashboard", icon: Home },
     { href: "/dashboard/lead", label: "Leads", icon: FileText },
-    { href: "/dashboard/services", label: "Sercives", icon: FolderKanban },
+    { href: "/dashboard/services", label: "Services", icon: FolderKanban },
     { href: "/dashboard/profile", label: "Profile", icon: Users2 },
     { href: "/dashboard/wallet", label: "Wallet", icon: IoWalletOutline },
     {
@@ -31,7 +31,7 @@ function Sidebar() {
   };
 
   return (
-    <aside className="w-[256px]  bg-[#1e293b] text-white border-r shadow-lg flex flex-col">
+    <aside className="w-[256px] shrink-0 bg-[#1e293b] text-white border-r shadow-lg flex flex-col">
       <h2 className="text-xl font-bold mb-6 p-4">My Dashboard</h2>
 
       <nav className="space-y-1">

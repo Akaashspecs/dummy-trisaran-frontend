@@ -5,10 +5,12 @@ import { useFormik } from "formik";
 import { TbXboxX } from "react-icons/tb";
 import { toast } from "react-toastify";
 import * as Yup from "yup";
-import { formatReadableDate } from "../../../../app/utils";
+import { formatReadableDate, loadEncrypted } from "../../../../app/utils";
 import { apiPost } from "../../../lib/api";
 
 export default function UserForm({ setIsFormOpen, singleProductData }) {
+  const user = loadEncrypted("user");
+  console.log(user);
   const formik = useFormik({
     initialValues: {
       fullName: "",
@@ -47,8 +49,8 @@ export default function UserForm({ setIsFormOpen, singleProductData }) {
         customerEmail: values.email,
         customerName: values.fullName,
         customerPhone: values.mobile,
-        email: values.email,
-        fullName: values.fullName,
+        email: user.email,
+        fullName: user.fullName,
         panCard: values.panNumber,
         phone: values.mobile,
         pincode: values.pincode,

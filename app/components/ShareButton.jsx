@@ -35,7 +35,7 @@ https://leads.trisaranmoney.in/?ref=${user.agentCode}&product=${productId}
       target="_blank" // Opens the link in a new tab/window
       rel="noopener noreferrer" // Security best practice for target="_blank"
       style={{
-        padding: "10px 20px",
+        padding: "8px 20px",
         fontSize: "20px",
       }}
     >

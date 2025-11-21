@@ -133,3 +133,64 @@ export const formatRelativeDate = (timestamp) => {
 
   return `${diffYears} years ago`;
 };
+
+export function breakAfterCommaStable(str) {
+  const emojis = [
+    "🔥",
+    "🚀",
+    "✨",
+    "💡",
+    "📌",
+    "🎯",
+    "🌟",
+    "💳",
+    "💰",
+    "📈",
+    "💵",
+  ];
+
+  return str.split(",").map((s, index) => {
+    const text = s.trim();
+    if (!text) return "";
+
+    const emoji = emojis[index % emojis.length]; // stable
+    return `${emoji} ${text}`;
+  });
+}
+
+export function downloadPDF(url) {
+  const link = document.createElement("a");
+  link.href = url;
+  link.download = url.split("/").pop(); // auto filename
+  link.click();
+}
+
+export async function sharePDF(url) {
+  try {
+    if (!navigator.share) {
+      alert("Sharing not supported on this device.");
+      return;
+    }
+
+    await navigator.share({
+      title: "PDF File",
+      text: "Please check this PDF.",
+      url,
+    });
+
+    console.log("Shared successfully!");
+  } catch (error) {
+    // User cancelled
+    if (error.name === "AbortError") {
+      console.log("Share cancelled by user.");
+      return; // Do nothing
+    }
+
+    // Other errors
+    console.error("Share failed:", error);
+  }
+}
+
+export function openPDF(url) {
+  window.open(url, "_blank");
+}

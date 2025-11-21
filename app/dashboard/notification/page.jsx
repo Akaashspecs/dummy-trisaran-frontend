@@ -10,6 +10,7 @@ const { io } = require("socket.io-client");
 const Notification = () => {
   const [notificationsData, setNotificationsData] = useState([]);
   const user = loadEncrypted("user");
+  console.log(notificationsData);
 
   useEffect(() => {
     async function load() {
@@ -49,6 +50,12 @@ const Notification = () => {
 
     socket.on("notification:update", (data) => {
       console.log("🔄 Notification Updated!", data);
+      setNotificationsData(
+        (prev) =>
+          prev.some((item) => item.id === data.id)
+            ? prev.map((item) => (item.id === data.id ? data : item))
+            : [...prev, data] // or add new item if needed
+      );
     });
 
     socket.on("notification:delete", (id) => {
@@ -61,7 +68,7 @@ const Notification = () => {
   }, []);
 
   return (
-    <div className="bg-[#f7f7f7] w-full h-full rounded-2xl p-6">
+    <div className="bg-[#ffffff] w-full h-full rounded-2xl p-6 overflow-y-scroll">
       <div className="font-semibold text-[20px] mb-10">Notifications</div>
       {user?.kycStatus === "not_submitted" && (
         <div className="border px-4 py-4 transition  duration-300 rounded-2xl border-gray-300 shadow-lg mb-4 bg-linear-to-r hover:scale-103 bg-amber-500/40">

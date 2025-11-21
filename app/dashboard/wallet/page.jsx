@@ -88,7 +88,7 @@ const Wallet = () => {
             </div>
           </div>
         </div>
-        <div className="w-[234px] shrink-0 flex gap-3 flex-col  justify-start items-start ">
+        <div className="w-[234px] shrink-0 flex gap-3 flex-col  justify-center items-start ">
           <div
             onClick={() => setBankFormOpen(true)}
             className="bg-blue-500  border w-full flex items-center gap-3 px-3 py-4 rounded-xl text-white mx-auto  hover:bg-linear-to-r from-blue-500 to-blue-600 cursor-pointer hover:text-white"
@@ -99,7 +99,7 @@ const Wallet = () => {
             onClick={() => setWithdrawalFormOpen(true)}
             className="bg-blue-500  border w-full justify-center flex items-center gap-3 px-3 py-4 rounded-xl text-white mx-auto  hover:bg-linear-to-r from-blue-500 to-blue-600 cursor-pointer hover:text-white"
           >
-            <RiBankLine /> Withdrawl
+            <RiBankLine /> Withdrawal
           </div>
         </div>
       </div>

@@ -107,8 +107,9 @@ export default function BankAccount({ setBankFormOpen, singleProductData }) {
       const res = await apiDelete(`/api/bankAccounts/${id}`);
 
       setBankFormOpen(false);
+      toast.success("Bank account deleted successfully!");
     } catch (err) {
-      console.error(err);
+      toast.error(err.message);
     } finally {
     }
   };
